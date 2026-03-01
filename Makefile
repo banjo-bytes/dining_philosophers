@@ -1,6 +1,6 @@
 # -- Compiler options -------------------------------------------
 CC:=cc
-CFLAGS:=-Wall -Wextra -Werror -I$(IDIR)
+CFLAGS:=-Wall -Wextra -Werror
 #CFLAGS+=-g
 DFLAGS:= -MMD -MP
 
@@ -10,10 +10,13 @@ ODIR:=obj
 SDIR:=src
 DDIR:=dep
 
+CFLAGS+=-I$(IDIR)
+
 # -- Files ------------------------------------------------------
-SRC:=
+SRC:=main.c
 OBJ:=$(addprefix $(ODIR)/, $(SRC:.c=.o))
 DEP:=$(addprefix $(DDIR)/, $(OBJ:.o=.d))
+NAME:= phil
 
 # -- Rules ------------------------------------------------------
 all: $(NAME)
@@ -27,7 +30,8 @@ $(ODIR)/%.o: $(SDIR)/%.c
 $(NAME): $(OBJ)
 	$(CC) $(CFLAGS) -o $@ $^
 
-clean: rm -rf $(ODIR) $(DDIR)
+clean:
+	rm -rf $(ODIR) $(DDIR)
 
 fclean: clean
 	rm -rf $(NAME)
