@@ -1,9 +1,10 @@
-################################################################################
+/* ################################################################################
 # File:    main.c
 # Author:  banjo-bytes
 # Date:    2026-03-01
-################################################################################
+################################################################################ */
 
+#include <stdlib.h>
 /*	Usage: ./phil N td te ts [Nm]
 	N - Number of philosophers
 	td - time to die (ms)
@@ -13,7 +14,7 @@
 */
 int	main(int argc, char **argv)
 {
-	if (argc < 5 || arcg > 7 || arg_check(argv))
+	if (argc < 5 || argc > 7) //TODO: Add || arg_check(argv))
 		return (EXIT_FAILURE);
 	return (0);
 }

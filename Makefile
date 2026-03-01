@@ -2,7 +2,7 @@
 CC:=cc
 CFLAGS:=-Wall -Wextra -Werror
 #CFLAGS+=-g
-DFLAGS:= -MMD -MP
+DFLAGS:= -MMD -MP -MF
 
 # -- Directories ------------------------------------------------
 IDIR:=include
@@ -23,7 +23,7 @@ all: $(NAME)
 
 $(ODIR)/%.o: $(SDIR)/%.c
 	@mkdir -p $(ODIR) $(DDIR)
-	$(CC) $(CFLAGS) $(DFLAGS) $(patsubst $(ODIR)/%.o, $(DDIR)/%.d, $@) -c $< -o $@
+	$(CC) $(CFLAGS) $(DFLAGS) $(patsubst $(SDIR)/%.c, $(DDIR)/%.d, $<) -c $< -o $@
 
 -include $(DEP)
 
