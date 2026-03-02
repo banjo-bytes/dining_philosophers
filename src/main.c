@@ -6,6 +6,7 @@
 
 #include "philo.h"
 #include <stdlib.h>
+#include <pthread.h>
 
 /*	Usage: ./phil N td te ts [Nm]
 	N - Number of philosophers
@@ -25,6 +26,7 @@ Simulation tracking => Each philosopher needs to track number of meals eaten and
 typedef struct	s_shared {
 	pthread_mutex_t	print_mtx;
 	pthread_mutex_t	*forks;
+	int				num_philo;
 	int				max_meals;
 	int				td;
 	int				te;
@@ -37,9 +39,31 @@ typedef struct	s_philo {
 	int			meals_eaten;
 }				t_philo;
 
+int	init_shared_vars(t_shared *shared_vars, int argc, char **argv)
+{
+	if (argc == 6)
+		shared_vars->max_meals = atoi(argv[5]);
+	else
+		shared_vars->max_meals = 0;
+	shared_vars->num_philo = atoi(argv[1]);
+	shared_vars->td = atoi(argv[2]);
+	shared_vars->te = atoi(argv[3]);
+	shared_vars->ts = atoi(argv[4]);
+	pthread_mutex_init(&shared_vars->print_mtx, NULL);
+	shared_vars->forks = (pthread_mutex_t *)malloc(shared_vars->num_philo * sizeof(pthread_mutex_t));
+	if (shared_vars->forks == NULL)
+		return (1);
+	for (int i = 0; i < shared_vars->num_philo; i++)
+		pthread_mutex_init(&shared_vars->forks[i], NULL);
+	return (0);
+}
+
 int	main(int argc, char **argv)
 {
-	if (argc < 5 || argc > 7) //TODO: Add || arg_check(argv))
+	t_shared	shared_vars;
+
+	if (argc < 5 || argc > 6) //TODO: Add || arg_check(argv))
 		return (EXIT_FAILURE);
+	init_shared_vars(&shared_vars, argc, argv);
 	return (0);
 }
