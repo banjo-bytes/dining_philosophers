@@ -24,9 +24,9 @@ static int	create_threads(pthread_t **threads, t_shared *shared_vars, t_philo *p
 	*threads = (pthread_t *)malloc(shared_vars->num_philo * sizeof(pthread_t));
 	if (*threads == NULL)
 		return (1);
-	for (int i = 0; i < philos->shared_vars.num_philo; i++)
+	for (int i = 0; i < philos->shared->num_philo; i++)
 	{
-		if (pthread_create(*threads + i, NULL, &thread_handler(), &philos[i]))
+		if (pthread_create(*threads + i, NULL, thread_handler(philos), &philos[i]))
 		{
 			//TODO: cleanup_thread_resources();
 			return (1);
@@ -35,7 +35,7 @@ static int	create_threads(pthread_t **threads, t_shared *shared_vars, t_philo *p
 	return (0);
 }
 
-static int	wait_threads(pthread_t *threads, t_shared_vars *shared_vars)
+static int	wait_threads(pthread_t *threads, t_shared *shared_vars)
 {
 	for (int i = 0; i < shared_vars->num_philo; i++)
 		pthread_join(threads[i], NULL);
@@ -50,7 +50,7 @@ int	main(int argc, char **argv)
 
 	if (argc < 5 || argc > 6) //TODO: Add || arg_check(argv))
 		return (EXIT_FAILURE);
-	if (init_resources(&shared_vars, &philos, arc, argv))
+	if (init_resources(&shared_vars, &philos, argc, argv))
 		return (EXIT_FAILURE);
 	create_threads(&threads, &shared_vars, philos); //TODO: Add error handling
 	wait_threads(threads, &shared_vars);

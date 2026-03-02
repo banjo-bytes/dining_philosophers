@@ -13,7 +13,10 @@ DDIR:=dep
 CFLAGS+=-I$(IDIR)
 
 # -- Files ------------------------------------------------------
-SRC:=main.c
+SRC:=main.c \
+thread_logic.c \
+init.c \
+timing.c
 OBJ:=$(addprefix $(ODIR)/, $(SRC:.c=.o))
 DEP:=$(addprefix $(DDIR)/, $(OBJ:.o=.d))
 NAME:= phil
