@@ -20,7 +20,7 @@ Printing status to stdout => Each philosopher needs access to global time elapse
 Simulation tracking => Each philosopher needs to track number of meals eaten and Nm (if provided), must know td, te, ts
 */
 
-/* Iteration 1: Forget timestamps, assume inputs correct, assume functions return successfully, only print to stdout the philosopher number and status*/
+//TODO: Timing fns
 
 int	main(int argc, char **argv)
 {
