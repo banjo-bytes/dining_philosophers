@@ -39,6 +39,8 @@ typedef struct	s_philo {
 	int			meals_eaten;
 }				t_philo;
 
+//TODO: Create a cleanup_resources fn
+
 int	init_shared_vars(t_shared *shared_vars, int argc, char **argv)
 {
 	if (argc == 6)
@@ -58,12 +60,26 @@ int	init_shared_vars(t_shared *shared_vars, int argc, char **argv)
 	return (0);
 }
 
+int	init_philos(t_philo *philos, t_shared *shared_vars)
+{
+	philos = (t_philo *)malloc(shared_vars->num_philos * sizeof(t_philo));
+	if (philos == NULL)
+	{	
+		cleanup_reosurces(NULL, shared_vars);
+		return (1);
+	}
+	return (0);
+}
+
 int	main(int argc, char **argv)
 {
 	t_shared	shared_vars;
+	t_philo		*philos;
+	pthread_t	*threads;
 
 	if (argc < 5 || argc > 6) //TODO: Add || arg_check(argv))
 		return (EXIT_FAILURE);
-	init_shared_vars(&shared_vars, argc, argv);
+	if (init_shared_vars(&shared_vars, argc, argv) || init_philos(philos, &shared_vars))
+		return (EXIT_FAILURE);	
 	return (0);
 }
