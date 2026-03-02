@@ -1,2 +1,5 @@
-# dining_philosophers
-Tackling the dining philosophers problem to achieve multithreading mastery.
+🍽 🤔 🍽 
+# **dining_philosophers**
+I'm watching my carbs *and* my shared resources
+
+## The Problem
