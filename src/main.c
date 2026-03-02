@@ -39,7 +39,22 @@ typedef struct	s_philo {
 	int			meals_eaten;
 }				t_philo;
 
-//TODO: Create a cleanup_resources fn
+void	cleanup_resources(t_shared *shared_vars, int print_mtx, int forks, int *i)
+{
+	int	j;
+
+	j = *i;
+	if (print_mtx)
+		pthread_mutex_destroy(&shared_vars->print_mtx);
+	if (forks)
+	{
+		while (j > 0)
+		{
+			pthread_mutex_destroy(&shared_vars->forks[j]);
+			j--;
+		}
+	}
+}
 
 int	init_shared_vars(t_shared *shared_vars, int argc, char **argv)
 {
@@ -74,7 +89,7 @@ int	init_philos(t_philo *philos, t_shared *shared_vars)
 	philos = (t_philo *)malloc(shared_vars->num_philos * sizeof(t_philo));
 	if (philos == NULL)
 	{	
-		cleanup_reosurces(shared_vars, 1, 1);
+		cleanup_reosurces(shared_vars, 1, 1, NULL);
 		return (1);
 	}
 	return (0);
