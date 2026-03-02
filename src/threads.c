@@ -6,13 +6,16 @@
 
 #include "philo.h"
 
-int	create_threads(pthread_t *threads, t_philo *philos)
+int	create_threads(pthread_t **threads, t_shared *shared_vars, t_philo *philos)
 {
+	*threads = (pthread_t *)malloc(shared_vars->num_philo * sizeof(pthread_t));
+	if (*threads == NULL)
+		return (1);
 	for (int i = 0; i < philos->shared_vars.num_philo; i++)
 	{
-		if (pthread_create(&threads[i], NULL, &thread_handler(), &philos[i]))
+		if (pthread_create(*threads + i, NULL, &thread_handler(), &philos[i]))
 		{
-			cleanup_thread_resources();
+			//TODO: cleanup_thread_resources();
 			return (1);
 		}
 	}

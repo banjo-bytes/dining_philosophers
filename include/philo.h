@@ -26,7 +26,7 @@ typedef struct	s_philo {
 }				t_philo;
 
 int	init_resources(t_shared *shared_vars, t_philo **philos, int argc, char **argv);
-int	create_threads(pthread_t *threads, t_philo *philos);
+int	create_threads(pthread_t **threads, t_shared *shared_vars, t_philo *philos);
 int	wait_threads(pthread_t *threads, t_shared *shared_vars);
 
 #endif

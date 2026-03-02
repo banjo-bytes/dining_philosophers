@@ -31,5 +31,7 @@ int	main(int argc, char **argv)
 		return (EXIT_FAILURE);
 	if (init_resources(&shared_vars, &philos, arc, argv))
 		return (EXIT_FAILURE);
+	create_threads(&threads, philos);
+	wait_threads(threads, shared_vars);
 	return (0);
 }
