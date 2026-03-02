@@ -43,20 +43,29 @@ typedef struct	s_philo {
 
 int	init_shared_vars(t_shared *shared_vars, int argc, char **argv)
 {
+	shared_vars->max_meals = 0;
 	if (argc == 6)
 		shared_vars->max_meals = atoi(argv[5]);
-	else
-		shared_vars->max_meals = 0;
 	shared_vars->num_philo = atoi(argv[1]);
 	shared_vars->td = atoi(argv[2]);
 	shared_vars->te = atoi(argv[3]);
 	shared_vars->ts = atoi(argv[4]);
-	pthread_mutex_init(&shared_vars->print_mtx, NULL);
+	if (pthread_mutex_init(&shared_vars->print_mtx, NULL))
+	{
+		cleanup_resources(shared_vars, 1, 0, NULL);
+		return (1);
+	}
 	shared_vars->forks = (pthread_mutex_t *)malloc(shared_vars->num_philo * sizeof(pthread_mutex_t));
 	if (shared_vars->forks == NULL)
 		return (1);
 	for (int i = 0; i < shared_vars->num_philo; i++)
-		pthread_mutex_init(&shared_vars->forks[i], NULL);
+	{
+		if (pthread_mutex_init(&shared_vars->forks[i], NULL))
+		{
+			cleanup_resources(shared_vars, 0, 1, &i);
+			return (1);
+		}
+	}
 	return (0);
 }
 
@@ -65,7 +74,7 @@ int	init_philos(t_philo *philos, t_shared *shared_vars)
 	philos = (t_philo *)malloc(shared_vars->num_philos * sizeof(t_philo));
 	if (philos == NULL)
 	{	
-		cleanup_reosurces(NULL, shared_vars);
+		cleanup_reosurces(shared_vars, 1, 1);
 		return (1);
 	}
 	return (0);
