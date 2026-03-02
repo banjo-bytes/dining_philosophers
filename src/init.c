@@ -3,6 +3,7 @@
 # Author:  banjo-bytes
 # Date:    2026-03-02
 ################################################################################ */
+#include "philo.h"
 
 static void	cleanup_resources(t_shared *shared_vars, int print_mtx, int forks, int *i)
 {

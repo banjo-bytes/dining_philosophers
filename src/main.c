@@ -5,7 +5,6 @@
 ################################################################################ */
 
 #include "philo.h"
-#include <stdlib.h>
 #include <pthread.h>
 
 /*	Usage: ./phil N td te ts [Nm]
@@ -23,22 +22,6 @@ Simulation tracking => Each philosopher needs to track number of meals eaten and
 
 /* Iteration 1: Forget timestamps, assume inputs correct, assume functions return successfully, only print to stdout the philosopher number and status*/
 
-typedef struct	s_shared {
-	pthread_mutex_t	print_mtx;
-	pthread_mutex_t	*forks;
-	int				num_philo;
-	int				max_meals;
-	int				td;
-	int				te;
-	int				ts;
-}				t_shared;
-
-typedef struct	s_philo {
-	t_shared	*shared;
-	int			phil_id;
-	int			meals_eaten;
-}				t_philo;
-
 int	main(int argc, char **argv)
 {
 	t_shared	shared_vars;
@@ -47,10 +30,7 @@ int	main(int argc, char **argv)
 
 	if (argc < 5 || argc > 6) //TODO: Add || arg_check(argv))
 		return (EXIT_FAILURE);
-	if (init_shared_vars(&shared_vars, argc, argv))
+	if (init_resources(&shared_vars, &philos, arc, argv))
 		return (EXIT_FAILURE);
-	philos = init_philos(&shared_vars);
-	if (philos == NULL)
-		return (EXIT_FAILURE);	
 	return (0);
 }
