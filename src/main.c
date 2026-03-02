@@ -84,15 +84,23 @@ int	init_shared_vars(t_shared *shared_vars, int argc, char **argv)
 	return (0);
 }
 
-int	init_philos(t_philo *philos, t_shared *shared_vars)
+t_philo	*init_philos(t_shared *shared_vars)
 {
+	t_philos	*philos;
+
 	philos = (t_philo *)malloc(shared_vars->num_philos * sizeof(t_philo));
 	if (philos == NULL)
 	{	
 		cleanup_reosurces(shared_vars, 1, 1, NULL);
-		return (1);
+		return (NULL);
 	}
-	return (0);
+	for (int i = 0; i < num_philo; i++)
+	{
+		philos[i].shared = shared_vars;
+		philos[i].phil_id = i;
+		philos[i].meals_eaten = 0;
+	}
+	return (philos);
 }
 
 int	main(int argc, char **argv)
@@ -103,7 +111,10 @@ int	main(int argc, char **argv)
 
 	if (argc < 5 || argc > 6) //TODO: Add || arg_check(argv))
 		return (EXIT_FAILURE);
-	if (init_shared_vars(&shared_vars, argc, argv) || init_philos(philos, &shared_vars))
+	if (init_shared_vars(&shared_vars, argc, argv))
+		return (EXIT_FAILURE);
+	philos = init_philos(&shared_vars);
+	if (philos == NULL)
 		return (EXIT_FAILURE);	
 	return (0);
 }
