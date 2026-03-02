@@ -5,7 +5,6 @@
 ################################################################################ */
 
 #include "philo.h"
-#include <pthread.h>
 
 /*	Usage: ./phil N td te ts [Nm]
 	N - Number of philosophers

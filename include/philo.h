@@ -7,6 +7,7 @@
 #ifndef PHILO_H
 # define PHILO_H
 # include <stdlib.h>
+# include <pthread.h>
 
 typedef struct	s_shared {
 	pthread_mutex_t	print_mtx;
@@ -25,5 +26,7 @@ typedef struct	s_philo {
 }				t_philo;
 
 int	init_resources(t_shared *shared_vars, t_philo **philos, int argc, char **argv);
+int	create_threads(pthread_t *threads, t_philo *philos);
+int	wait_threads(pthread_t *threads, t_shared *shared_vars);
 
 #endif
