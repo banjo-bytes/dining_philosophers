@@ -25,8 +25,7 @@ typedef struct	s_philo {
 	int			meals_eaten;
 }				t_philo;
 
-int	init_resources(t_shared *shared_vars, t_philo **philos, int argc, char **argv);
-int	create_threads(pthread_t **threads, t_shared *shared_vars, t_philo *philos);
-int	wait_threads(pthread_t *threads, t_shared *shared_vars);
+int		init_resources(t_shared *shared_vars, t_philo **philos, int argc, char **argv);
+void	*thread_handler(void *philo);
 
 #endif
